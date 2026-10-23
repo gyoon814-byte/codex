@@ -64,6 +64,7 @@ import {
 } from "./model";
 import { loadData, persistData } from "./storage";
 import "./style.css";
+import { Character } from "./Character";
 const colors = [
   "#8eb5a0",
   "#f4c87e",
@@ -76,116 +77,6 @@ const colors = [
 ];
 const pages = ["홈", "가계부", "소비 분석", "자산", "설정"];
 const icons = [Home, BookOpen, ChartNoAxesCombined, Wallet, Settings];
-function Character({
-  name = "chiikawa",
-  size = 110,
-}: {
-  name?: string;
-  size?: number;
-}) {
-  const [failed, setFailed] = useState(false);
-  return (
-    <div
-      className={`character ${name}`}
-      style={{ width: size, height: size }}
-      aria-label="캐릭터 에셋 자리의 임시 마스코트"
-    >
-      {!failed ? (
-        <img
-          src={`/characters/${name}.png`}
-          onError={() => setFailed(true)}
-          alt="사용자 제공 캐릭터"
-        />
-      ) : (
-        <svg
-          viewBox="0 0 120 120"
-          role="img"
-          aria-label="따뜻한 분위기의 임시 마스코트"
-        >
-          <ellipse
-            cx="60"
-            cy="108"
-            rx="34"
-            ry="5"
-            fill="#ddd8c7"
-            opacity=".4"
-          />
-          {name === "usagi" ? (
-            <>
-              <ellipse
-                cx="44"
-                cy="28"
-                rx="10"
-                ry="26"
-                fill="#fff0c3"
-                stroke="#776b59"
-                strokeWidth="2"
-              />
-              <ellipse
-                cx="77"
-                cy="28"
-                rx="10"
-                ry="26"
-                fill="#fff0c3"
-                stroke="#776b59"
-                strokeWidth="2"
-              />
-            </>
-          ) : (
-            <>
-              <ellipse
-                cx="31"
-                cy="39"
-                rx="14"
-                ry="17"
-                fill={name === "hachiware" ? "#abcce0" : "#fffdf7"}
-                stroke="#776b59"
-                strokeWidth="2"
-              />
-              <ellipse
-                cx="89"
-                cy="39"
-                rx="14"
-                ry="17"
-                fill={name === "hachiware" ? "#abcce0" : "#fffdf7"}
-                stroke="#776b59"
-                strokeWidth="2"
-              />
-            </>
-          )}
-          <path
-            d="M24 61 C23 35 97 35 96 61 L101 88 Q99 108 60 106 Q21 108 19 88 Z"
-            fill={name === "usagi" ? "#fff0c3" : "#fffdf7"}
-            stroke="#776b59"
-            strokeWidth="2"
-          />
-          {name === "hachiware" && (
-            <path
-              d="M25 57 Q34 30 60 42 Q90 34 96 60 L74 58 L61 48 L47 60Z"
-              fill="#abcce0"
-            />
-          )}
-          <ellipse cx="36" cy="81" rx="10" ry="6" fill="#f3c8c4" />
-          <ellipse cx="84" cy="81" rx="10" ry="6" fill="#f3c8c4" />
-          <circle cx="43" cy="71" r="3.4" fill="#655c51" />
-          <circle cx="77" cy="71" r="3.4" fill="#655c51" />
-          <path
-            d="M52 81 Q56 88 60 81 Q64 88 68 81"
-            fill="none"
-            stroke="#655c51"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          <path
-            d="M41 103 L38 110 M79 103 L82 110"
-            stroke="#776b59"
-            strokeWidth="2"
-          />
-        </svg>
-      )}
-    </div>
-  );
-}
 function App() {
   const [data, setData] = useState<Data>(emptyData),
     [ready, setReady] = useState(false),
@@ -1377,14 +1268,17 @@ function App() {
                 <hr />
                 <h3>나만의 캐릭터</h3>
                 <p className="muted">
-                  public/characters 폴더에 chiikawa.png, hachiware.png,
-                  usagi.png를 넣으면 장식에 반영됩니다. 현재 그림은 임시
-                  마스코트입니다.
+                  보내주신 치이카와·하치와레·우사기 이미지와 함께해요. 이미지는
+                  앱에 포함되어 외부 사이트에 접속하지 않고 표시됩니다.
                 </p>
                 <div className="mascot-row">
                   <Character size={70} />
                   <Character name="hachiware" size={70} />
                   <Character name="usagi" size={70} />
+                </div>
+                <div className="friends-card">
+                  <Character name="friends" size={160} />
+                  <p>오늘도 함께, 차곡차곡 🌱</p>
                 </div>
                 <hr />
                 <h3>데이터 초기화</h3>
@@ -1913,7 +1807,7 @@ function PanelTitle({
 function Empty({ text, action }: { text: string; action: () => void }) {
   return (
     <div className="empty">
-      <Character size={86} />
+      <Character name="chiikawa-rest" size={120} />
       <p>{text}</p>
       <button className="secondary" onClick={action}>
         <Plus size={15} /> 첫 기록 시작하기
